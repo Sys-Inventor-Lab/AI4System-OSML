@@ -1,6 +1,5 @@
 import random
 import sys
-
 import numpy as np
 import pandas as pd
 import tensorflow.compat.v1 as tf
@@ -8,7 +7,7 @@ from tqdm import tqdm
 from copy import deepcopy
 import pickle
 sys.path.append("../")
-from configs import A_FEATURES, A_LABELS
+from configs import A_FEATURES, A_LABELS, ROOT
 from utils import *
 
 tf.disable_eager_execution()
@@ -22,7 +21,7 @@ data_dir = ROOT + "/data/data_process/Model_A/"
 data_path_train = data_dir + "Model_A_train.csv"
 data_path_test = data_dir + "Model_A_test.csv"
 data_path_valid = data_dir + "Model_A_valid.csv"
-max_min_path = ROOT + "/data/data_process/max_min/max_min_Model_A.txt"
+max_min_path = ROOT + "/data/data_process/max_min.txt"
 
 
 class Model_A:
@@ -36,9 +35,10 @@ class Model_A:
         self.data_valid = []
         with open(max_min_path, "r") as f:
             max_min = eval(f.readline())
+            print(max_min)
             self.max_min = {}
-            self.max_min["input_max"] = max_min["max"][:self.input_size]
-            self.max_min["input_min"] = max_min["min"][:self.input_size]
+            self.max_min["input_max"] = [max_min["max"][feature] for feature in A_FEATURES]
+            self.max_min["input_min"] = [max_min["min"][feature] for feature in A_FEATURES]
         tf.reset_default_graph()
         self.create_network()
         self.saver = tf.train.Saver()
@@ -142,7 +142,6 @@ class Model_A:
         return state_batch, label_batch
 
     def trainNetwork(self):
-        #df_loss = pd.DataFrame(columns=["step", "loss_train", "loss_valid"])
         df_loss = pd.DataFrame(columns=["step", "loss_train"])
         self.iterations = round(len(self.data_train) / self.BATCH * self.epoch)
         print("Train data has {} tuples, iterations: {}".format(len(self.data_train), self.iterations))
@@ -152,9 +151,6 @@ class Model_A:
                 self.train_step.run(feed_dict={self.state: state_batch, self.label: label_batch}, session=self.sess)
                 if c % 100 == 0:
                     loss_train = self.sess.run([self.loss], feed_dict={self.state: state_batch, self.label: label_batch})
-                    #state_batch_valid, y_batch_valid = self.get_batch_random(self.data_valid, self.BATCH)
-                    #loss_valid = self.sess.run([self.loss],feed_dict={self.state: state_batch_valid, self.label: y_batch_valid})
-                    #loss_arr = [c, loss_train[0], loss_valid[0]]
                     loss_arr = [c,loss_train[0]]
                     df_loss.loc[df_loss.shape[0]] = loss_arr
                     print(loss_arr)
@@ -164,33 +160,16 @@ class Model_A:
 
 def train_model():
     model_a = Model_A()
-    
-    pkl_path_train=data_path_train.replace(".csv",".pkl")
-    data_train=load_pkl(pkl_path_train)
+    data_train=pd.read_csv(data_path_train)
     state_train = data_train.loc[:, A_FEATURES].values
     label_train = data_train.loc[:, A_LABELS].values
-
-    '''
-    data_valid = pd.read_csv(data_path_valid)
-    state_valid = data_valid.loc[:, A_FEATURES].values
-    label_valid = data_valid.loc[:, A_LABELS].values
-    model_a.handleData(state_train, label_train, state_valid, label_valid)
-    '''
-
     model_a.handleData(state_train, label_train)
     model_a.trainNetwork()
 
 
 def test_model():
     model_a = Model_A()
-
-    pkl_path_test=data_path_test.replace(".csv",".pkl")
-    if os.path.exists(pkl_path_test):
-        with open(pkl_path_test,"rb") as f:
-            data_test=pickle.load(f)
-    else:
-        data_test = pd.read_csv(data_path_test)
-
+    data_test = pd.read_csv(data_path_test)
     state_test = data_test.loc[:, A_FEATURES].values
     label_test = data_test.loc[:, A_LABELS].values
     output=model_a.sess.run(model_a.error, feed_dict={model_a.state: state_test, model_a.label: label_test})

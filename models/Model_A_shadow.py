@@ -7,7 +7,7 @@ import tensorflow.compat.v1 as tf
 from tqdm import tqdm
 import pickle
 sys.path.append("../")
-from configs import A_SHADOW_FEATURES, A_LABELS
+from configs import A_SHADOW_FEATURES, A_LABELS, ROOT
 from utils import *
 
 tf.disable_eager_execution()

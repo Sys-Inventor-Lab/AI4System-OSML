@@ -158,7 +158,7 @@ def OSML(mgr, terminate_when_QoS_is_met=False, terminate_when_timeout=False, tim
 
 
 def main():
-    mgr = program_mgr(config_path=ROOT + "/workload.txt", regular_update=True)
+    mgr = program_mgr(config_path=ROOT + "/workload.txt", regular_update=True, enable_models=True)
     try:
         OSML(mgr)
     except KeyboardInterrupt as e:

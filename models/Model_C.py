@@ -8,6 +8,9 @@ import pandas as pd
 sys.path.append("../")
 from utils import *
 from configs import *
+import logging
+
+logger=logging.getLogger(__name__)
 
 model_dir = ROOT + "/models/Model_C/"
 log_dir = ROOT + "/models/logs/"
@@ -184,9 +187,11 @@ class Model_C:
         path = tf.train.latest_checkpoint(model_path)
         if path is not None:
             self.saver.restore(self.sess, path)
-            print_color("Model C load successfully.","green")
+            print_color("==> Model C load successfully.","green")
+            logger.info("Model C load successfully.")
         else:
-            print_color("Fail loading Model C.","red")
+            print_color("==> Fail loading Model C.","red")
+            logger.info("Fail loading Model C.")
 
     def read_memory(self, transition):
         if len(transition.shape)==1:

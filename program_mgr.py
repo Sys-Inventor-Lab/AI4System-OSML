@@ -9,6 +9,10 @@ import datetime
 import time
 import random
 import pandas as pd
+import warnings
+import logging
+warnings.filterwarnings("ignore")
+os.environ["TF_CPP_MIN_LOG_LEVEL"]="3"
 import tensorflow.compat.v1 as tf
 import hashlib
 from subprocess import check_output
@@ -24,6 +28,8 @@ from models.Model_A_shadow import Model_A_shadow
 from models.Model_B import Model_B
 from models.Model_B_shadow import Model_B_shadow
 from models.Model_C import Model_C
+
+logger=logging.getLogger(__name__)
 
 model_a = None
 model_a_shadow = None
@@ -199,7 +205,7 @@ def generate_deprivation_policy(solution, diff, mgr, app):
 
 
 class program_mgr:
-    def __init__(self, config_path=None, regular_update=False, nopartition=False, log_prefix="OSML", manage=True, enable_models=True):
+    def __init__(self, config_path=None, regular_update=False, nopartition=False, log_prefix="OSML", manage=True, enable_models=False):
         self.pending_queue = collections.OrderedDict()
         self.programs = collections.OrderedDict()
         self.resource_used = {"cores": 0, "ways": 0}
@@ -546,13 +552,14 @@ class program_mgr:
         features = self.get_features(name, A_FEATURES)
         output = model_a.use_model(features)
         if MBA_SUPPORT:
-            result = {"RCliff": {"ways": cache_2_way(output[0]), "cores": int(round(output[1]))},
-                      "OAA": {"ways": cache_2_way(output[2]), "cores": int(round(output[3]))},
+            result = {"RCliff": {"ways": cache_2_way(output[0], MB_PER_WAY), "cores": int(round(output[1]))},
+                      "OAA": {"ways": cache_2_way(output[2], MB_PER_WAY), "cores": int(round(output[3]))},
                       "OAA_Bandwidth": output[4]}
         else:
-            result = {"RCliff": {"ways": cache_2_way(output[0]), "cores": int(round(output[1]))},
-                      "OAA": {"ways": cache_2_way(output[2]), "cores": int(round(output[3]))}}
-        print_color("Use Model A for {}.".format(name), "cyan")
+            result = {"RCliff": {"ways": cache_2_way(output[0], MB_PER_WAY), "cores": int(round(output[1]))},
+                      "OAA": {"ways": cache_2_way(output[2], MB_PER_WAY), "cores": int(round(output[3]))}}
+        print_color("==> Use Model A for {}.".format(name), "cyan")
+        logger.info("Use Model A for {}.".format(name))
         # print_color("Input:{}".format(features),"cyan")
         # print_color("Output:{}".format(output), "cyan")
         # print_color("Trimmed_result:{}".format(result), "cyan")
@@ -571,13 +578,14 @@ class program_mgr:
         features = np.concatenate((A_features, neighbor_features), axis=0)
         output = model_a_shadow.use_model(features)
         if MBA_SUPPORT:
-            result = {"RCliff": {"ways": cache_2_way(output[0]), "cores": int(round(output[1]))},
-                      "OAA": {"ways": cache_2_way(output[2]), "cores": int(round(output[3]))},
+            result = {"RCliff": {"ways": cache_2_way(output[0], MB_PER_WAY), "cores": int(round(output[1]))},
+                      "OAA": {"ways": cache_2_way(output[2], MB_PER_WAY), "cores": int(round(output[3]))},
                       "OAA_Bandwidth": output[4]}
         else:
-            result = {"RCliff": {"ways": cache_2_way(output[0]), "cores": int(round(output[1]))},
-                      "OAA": {"ways": cache_2_way(output[2]), "cores": int(round(output[3]))}}
-        print_color("Use Model A' for {}.".format(name), "cyan")
+            result = {"RCliff": {"ways": cache_2_way(output[0], MB_PER_WAY), "cores": int(round(output[1]))},
+                      "OAA": {"ways": cache_2_way(output[2], MB_PER_WAY), "cores": int(round(output[3]))}}
+        print_color("==> Use Model A' for {}.".format(name), "cyan")
+        logger.info("Use Model A' for {}.".format(name))
         # print_color("Output:{}".format(output), "cyan")
 
         for key in ["RCliff", "OAA"]:
@@ -598,18 +606,19 @@ class program_mgr:
             QoS_Reductions = [QoS_Reductions]
         B_points = {}
         colocated_features = self.get_colocated_features(names)
-        print_color("Use Model B.", "cyan")
+        print_color("==> Use Model B.", "cyan")
+        logger.info("Use Model B.")
         for QoS_Reduction in QoS_Reductions:
             B_features = {}
             for name in names:
                 B_features[name] = colocated_features[name][:-1]
                 B_features[name].append(QoS_Reduction)
                 output = model_b.use_model(B_features[name])
-                B_points[(name, QoS_Reduction, "Core_Dominated_Spared")] = {"ways": cache_2_way(output[0]),
+                B_points[(name, QoS_Reduction, "Core_Dominated_Spared")] = {"ways": cache_2_way(output[0], MB_PER_WAY),
                                                                             "cores": int(round(output[1]))}
-                B_points[(name, QoS_Reduction, "Default_Spared")] = {"ways": cache_2_way(output[2]),
+                B_points[(name, QoS_Reduction, "Default_Spared")] = {"ways": cache_2_way(output[2], MB_PER_WAY),
                                                                      "cores": int(round(output[3]))}
-                B_points[(name, QoS_Reduction, "Cache_Dominated_Spared")] = {"ways": cache_2_way(output[4]),
+                B_points[(name, QoS_Reduction, "Cache_Dominated_Spared")] = {"ways": cache_2_way(output[4], MB_PER_WAY),
                                                                              "cores": int(round(output[5]))}
                 # print_color("----------\nName:{}".format(name),"cyan")
                 # print_color("QoS_Reduction:{}".format(QoS_Reduction),"cyan")
@@ -689,7 +698,8 @@ class program_mgr:
                 action["cores"] = max(action["cores"], 0)
                 action["ways"] = max(action["ways"], 0)
             if not action["cores"]==0 and action["ways"]==0:    
-                print_color("Model_C_add, allocate {} to {}".format(str(action), name), "green")
+                print_color("==> Model_C_add, allocate {} to {}".format(str(action), name), "green")
+                logger.info("Model_C_add, allocate {} to {}".format(str(action), name))
             self.allocate_diff(name, action, propagate=True)
             self.last_action["action"] = action
         elif SHARING:
@@ -759,7 +769,8 @@ class program_mgr:
                              (self.programs[name].way_len-1)), action["ways"])
         
         if not action["cores"]==0 and action["ways"]==0:    
-            print_color("Model_C_sub, allocate {} to {}".format(str(action), name), "green")
+            print_color("==> Model_C_sub, allocate {} to {}".format(str(action), name), "green")
+            logger.info("Model_C_sub, allocate {} to {}".format(str(action), name))
         self.allocate_diff(name, action, propagate=True)
         self.register_revert_event(name, callback=self.revert_partially, args=(name, action))
         self.last_action = {"model": "model_C_sub",
@@ -869,12 +880,11 @@ class program_mgr:
         for proc_id_str in self.sharing_policies:
             proc_ids = [int(i) for i in proc_id_str.split("+")]
             if any([proc_id in neighbor_proc_ids for proc_id in proc_ids]):
-                Allocated_Cache += way_2_cache(
-                    self.sharing_policies[proc_id_str]["allocation"]["ways"])
+                Allocated_Cache += way_2_cache(self.sharing_policies[proc_id_str]["allocation"]["ways"], MB_PER_WAY)
                 Allocated_Core += self.sharing_policies[proc_id_str]["allocation"]["cores"]
         for app in neighbor_names:
             if not self.programs[app].way_len is None:
-                Allocated_Cache += way_2_cache(self.programs[app].way_len)
+                Allocated_Cache += way_2_cache(self.programs[app].way_len, MB_PER_WAY)
             if not self.programs[app].core_len is None:
                 Allocated_Core += self.programs[app].core_len
         arr = [round(sum(MBLs) / len(MBLs), 2) if len(MBLs) >=
@@ -947,8 +957,10 @@ class program_mgr:
             names = list(self.programs.keys())
         if type(names) == str:
             names = [names]
-        print("\n{} seconds".format(round(time.time()-self.start_time,2)))
+        print("")
+        print("{} seconds".format(round(time.time()-self.start_time,2)))
         print("===============Latency===============")
+        log_str=[]
         for name in names:
             latency = self.programs[name].get_features("Latency")[0]
             RPS_str = self.programs[name].RPS_str
@@ -959,12 +971,15 @@ class program_mgr:
             else:
                 met = "\033[31m{}X QoS target\033[0m".format(round(latency/QOS_TARGET[name], 2))
             print("{}\t- {}\t- {}\t- {}".format(name, latency, RPS_str, met))
+            log_str.append("{} - {} - {} - {}".format(name, latency, RPS_str, met))
+        logger.info("Latency: {}".format("; ".join(log_str)))
 
     def report_allocation(self, names=None):
         if names is None:
             names = list(self.programs.keys())
         if type(names) == str:
             names = [names]
+        log_str=[]
         core_start = 0
         way_start = 0
         if self.manage:
@@ -986,6 +1001,7 @@ class program_mgr:
                     s += "{}-{} ways; ".format(way_start, way_end)
                     way_start += self.sharing_policies[proc_id_str]["allocation"]["ways"]
                 print(s)
+                log_str.append(s)
                 core_ranges.append(self.sharing_policies[proc_id_str]["allocation"]["cores"])
                 way_ranges.append(self.sharing_policies[proc_id_str]["allocation"]["ways"])
                 core_labels.append("+".join(proc_names))
@@ -1004,11 +1020,13 @@ class program_mgr:
                     self.programs[name].way_start,
                     self.programs[name].way_start + self.programs[name].way_len - 1)
             if not state == "":
-                print(name + " is allocated to: " + state)
+                s = name + " is allocated to: " + state
                 core_ranges.append(self.programs[name].core_len)
                 way_ranges.append(self.programs[name].way_len)
                 core_labels.append(name)
                 way_labels.append(name)
+                log_str.append(s)
+                print(s)
 
         if sum(core_ranges)<N_CORES:
             core_ranges.append(N_CORES-sum(core_ranges))
@@ -1021,6 +1039,7 @@ class program_mgr:
         draw_bar_chart(N_CORES, core_ranges, core_labels)
         print("LLC Ways Allocation")
         draw_bar_chart(N_WAYS, way_ranges, way_labels)
+        logger.info("Allocation: "+"; ".join(log_str))
 
     def size_pending(self):
         return len(self.pending_queue)
@@ -1136,7 +1155,7 @@ class program_mgr:
         return format(int(bin_str, 2), "x").rjust(5, "0").upper()
 
     def get_core_mask(self, core_list):
-        return ",".join([str(PHYSICAL_CORES[core_idx]) for core_idx in core_list])
+        return ",".join([str(core_idx) for core_idx in core_list])
 
     def conduct_allocation(self):
         tail = "" if PQOS_OUTPUT_ENABLED else " 1>/dev/null"
@@ -1162,10 +1181,10 @@ class program_mgr:
                     return
                 way_used_str = self.get_way_mask(way_used)
                 core_used_str = self.get_core_mask(core_used)
-                subprocess.call("pqos -I -a llc:{}={}".format(COS_id, core_used_str) + tail, shell=True)
-                subprocess.call("pqos -I -e llc:{}=0x{}".format(COS_id, way_used_str) + tail, shell=True)
-            except:
-                pass
+                subprocess.call("pqos --iface=msr -a llc:{}={}".format(COS_id, core_used_str) + tail, shell=True)
+                subprocess.call("pqos --iface=msr -e llc:{}=0x{}".format(COS_id, way_used_str) + tail, shell=True)
+            except Exception as e:
+                raise e
 
         core_used = {name: [] for name in self.programs}
         core_independent = {name: [] for name in self.programs}
@@ -1286,7 +1305,8 @@ class program:
         self.pid = self.get_pid()
         self.mode = MODE.Unmanaged
         self.monitor()
-        print_color(self.name + ' launched! pid:{}'.format(self.pid), "green")
+        print_color("==> "+self.name + ' launched! pid:{}'.format(self.pid), "green")
+        logger.info(self.name + ' launched! pid:{}'.format(self.pid))
 
     def change_RPS(self):
         if len(self.RPS_to_change) > 0:
@@ -1294,7 +1314,8 @@ class program:
             cmd = CHANGE_RPS_STR[self.name].format(RPS=RPS["RPS"])
             if subprocess.call(cmd, shell=True):
                 raise Exception("{} change RPS failure!".format(self.name))
-            print_color("RPS of " + self.name + " is changed to {}.".format(RPS), "green")
+            print_color("==> RPS of " + self.name + " is changed to {}.".format(RPS), "green")
+            logger.info("RPS of " + self.name + " is changed to {}.".format(RPS))
             self.RPS_str = RPS["RPS_str"]
 
     def end(self):
@@ -1492,8 +1513,7 @@ class program:
 
             self.state["Allocated_Core"] = len(
                 core_list) if len(core_list) > 0 else N_CORES
-            self.state["Allocated_Cache"] = way_2_cache(
-                len(way_list)) if len(way_list) > 0 else way_2_cache(N_WAYS)
+            self.state["Allocated_Cache"] = way_2_cache(len(way_list), MB_PER_WAY) if len(way_list) > 0 else way_2_cache(N_WAYS, MB_PER_WAY)
             if len(core_list) == 0:
                 core_list = list(range(0, N_CORES))
 

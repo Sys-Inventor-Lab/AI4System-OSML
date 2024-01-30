@@ -7,7 +7,7 @@ import tensorflow.compat.v1 as tf
 from tqdm import tqdm
 
 sys.path.append("../")
-from configs import B_SHADOW_FEATURES, B_SHADOW_LABELS
+from configs import B_SHADOW_FEATURES, B_SHADOW_LABELS, ROOT
 from utils import *
 
 tf.disable_eager_execution()
