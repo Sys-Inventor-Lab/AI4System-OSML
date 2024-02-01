@@ -1,0 +1,2 @@
+model_checkpoint_path: "/home/AI4System-OSML/models/Model_B/Model_B.ckpt"
+all_model_checkpoint_paths: "/home/AI4System-OSML/models/Model_B/Model_B.ckpt"
