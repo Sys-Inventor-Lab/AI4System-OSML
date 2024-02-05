@@ -1,4 +1,4 @@
-# OSML on a server equipped with Intel Xeon E5 2697 v4
+# OSML on a server equipped with an Intel Xeon E5 2697 v4 CPU
 
 ## Platform specification
 This artifact is conduct on a server equipped with Intel Xeon E5 2679 v4. The platform specification is as following.

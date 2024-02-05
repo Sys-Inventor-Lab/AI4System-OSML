@@ -1,10 +1,16 @@
 import os
+import sys
 import subprocess
 import logging
 import subprocess
+from utils import shell_output
 from enum import Enum
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
 logger = logging.getLogger(__name__)
+if not os.path.exists("logs"):
+    outs, errs = shell_output("mkdir logs", wait = True, output = False)
+logging.basicConfig(filename = "logs/osml.log", filemode = "w", level = logging.INFO, format='==> %(asctime)s - %(name)s[%(lineno)d] - %(levelname)s - %(message)s')
+logging.getLogger("tensorflow").setLevel(logging.ERROR)
 
 
 # Mode of an application
@@ -316,7 +322,7 @@ def init_docker():
 
     def init_tailbench():
         # Set this to point to the top level of the TailBench data directory
-        PATH_TAILBENCH_INPUTS = "/home/douxinglei/AI4System-OSML/volume/tailbench.inputs/"
+        PATH_TAILBENCH_INPUTS = ROOT+"/volume/tailbench.inputs/"
         # Prepare inputs for tailbench
         if not os.path.exists(PATH_TAILBENCH_INPUTS):
             raise Exception("Please download inputs for Tailbench.")

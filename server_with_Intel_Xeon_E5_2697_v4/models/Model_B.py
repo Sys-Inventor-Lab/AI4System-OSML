@@ -35,7 +35,6 @@ class Model_B:
         self.data_valid = []
         with open(max_min_path, "r") as f:
             max_min = eval(f.readline())
-            print(max_min)
             self.max_min = {}
             self.max_min["input_max"] = [max_min["max"][feature] for feature in B_FEATURES]
             self.max_min["input_min"] = [max_min["min"][feature] for feature in B_FEATURES]
@@ -47,9 +46,9 @@ class Model_B:
         checkpoint = tf.train.get_checkpoint_state(model_dir)
         if checkpoint and tf.train.checkpoint_exists(checkpoint.model_checkpoint_path):
             self.saver.restore(self.sess, model_path)
-            print_color("Model B load successfully.","green")
+            print_color("==> Model B load successfully.","green")
         else:
-            print_color("Fail loading Model B.","red")
+            print_color("==> Fail loading Model B.","red")
 
     def use_model(self, input_arr):
         """
@@ -111,7 +110,6 @@ class Model_B:
         return tf.Variable(tf.zeros(shape=shape) + 0.1)
 
     def normalize_for_input(self, input_arr):
-        print(input_arr)
         for i in range(len(input_arr)):
             input_arr[i] = (float(input_arr[i]) - self.max_min["input_min"][i]) / (
                         self.max_min["input_max"][i] - self.max_min["input_min"][i])

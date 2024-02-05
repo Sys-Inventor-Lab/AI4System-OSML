@@ -35,10 +35,10 @@ class Model_B_shadow:
         self.data_valid = []
         with open(max_min_path, "r") as f:
             max_min = eval(f.readline())
-            print(max_min)
             self.max_min = {}
             self.max_min["input_max"] = [max_min["max"][feature] for feature in B_SHADOW_FEATURES]
             self.max_min["input_min"] = [max_min["min"][feature] for feature in B_SHADOW_FEATURES]
+        tf.reset_default_graph()
         self.create_network()
         self.saver = tf.train.Saver()
         self.sess = tf.InteractiveSession()
@@ -46,9 +46,9 @@ class Model_B_shadow:
         checkpoint = tf.train.get_checkpoint_state(model_dir)
         if checkpoint and tf.train.checkpoint_exists(checkpoint.model_checkpoint_path):
             self.saver.restore(self.sess, model_path)
-            print_color("Model B shadow load successfully.","green")
+            print_color("==> Model B shadow load successfully.","green")
         else:
-            print_color("Fail loading Model B shadow.","red")
+            print_color("==> Fail loading Model B shadow.","red")
 
     def use_model(self, input_arr):
         input_matrix = np.asmatrix(self.normalize_for_input(input_arr))
@@ -179,5 +179,5 @@ def test_model():
     print(error.mean())
 
 if __name__ == "__main__":
-    #train_model()
+    train_model()
     test_model()

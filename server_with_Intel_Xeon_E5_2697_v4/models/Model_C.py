@@ -20,7 +20,7 @@ data_dir = ROOT + "/data/data_process/Model_C/"
 data_path_train = data_dir + "Model_C_train.csv"
 data_path_test = data_dir + "Model_C_test.csv"
 data_path_valid = data_dir + "Model_C_valid.csv"
-max_min_path = ROOT + "/data/data_process/max_min/max_min_Model_C.txt"
+max_min_path = ROOT + "/data/data_process/max_min.txt"
 tf.disable_eager_execution()
 
 class Model_C:
@@ -75,8 +75,8 @@ class Model_C:
         with open(max_min_path, "r") as f:
             max_min = eval(f.readline())
             self.max_min = {}
-            self.max_min["input_max"] = max_min["max"][:self.n_features]
-            self.max_min["input_min"] = max_min["min"][:self.n_features]
+            self.max_min["input_max"] = [max_min["max"][feature] for feature in B_FEATURES]
+            self.max_min["input_min"] = [max_min["min"][feature] for feature in B_FEATURES]
 
         self.export_file=open(export_filename,"a")
 

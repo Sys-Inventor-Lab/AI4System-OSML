@@ -4,16 +4,20 @@ import warnings
 import pickle as pkl
 import numpy as np
 import pandas as pd
+import subprocess
 from functools import wraps
 
 def any_2_byte(val):
-    if chr(val[-1] == "g"):
-        res = float(val[:-1]) * 1024 * 1024
-    elif chr(val[-1] == "m"):
-        res = float(val[:-1]) * 1024
-    else:
-        res = float(val)
-    return res
+    try:
+        if chr(val[-1] == "g"):
+            res = float(val[:-1]) * 1024 * 1024
+        elif chr(val[-1] == "m"):
+            res = float(val[:-1]) * 1024
+        else:
+            res = float(val)
+        return res
+    except ValueError:
+        return None
 
 
 def cache_2_way(cache, mb_per_way):
@@ -33,6 +37,19 @@ def walk(path):
         sub_paths.append(path + '/' + dir)
     return sub_paths
 
+def shell_output(c, overtime=15, deco='utf-8', wait=True, output=False):
+    bg_wrapper = "{} &"
+    if wait == False:
+        c = bg_wrapper.format(c)
+    subp = subprocess.Popen(c, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    try:
+        outs, errs = subp.communicate(timeout=overtime)
+    except subprocess.TimeoutExpired:
+        subp.kill()
+        outs, errs = subp.communicate()
+    if output == True:
+        print(outs.decode(deco), errs.decode(deco))
+    return (outs.decode(deco), errs.decode(deco))
 
 def print_color(text, color="red"):
     escape_code = {"red": "\033[31m{}\033[0m",

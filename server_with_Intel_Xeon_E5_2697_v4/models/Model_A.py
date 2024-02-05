@@ -35,7 +35,6 @@ class Model_A:
         self.data_valid = []
         with open(max_min_path, "r") as f:
             max_min = eval(f.readline())
-            print(max_min)
             self.max_min = {}
             self.max_min["input_max"] = [max_min["max"][feature] for feature in A_FEATURES]
             self.max_min["input_min"] = [max_min["min"][feature] for feature in A_FEATURES]
@@ -47,9 +46,9 @@ class Model_A:
         checkpoint = tf.train.get_checkpoint_state(model_dir)
         if checkpoint and tf.train.checkpoint_exists(checkpoint.model_checkpoint_path):
             self.saver.restore(self.sess, model_path)
-            print_color("Model A load successfully.","green")
+            print_color("==> Model A load successfully.","green")
         else:
-            print_color("Fail loading Model A.","red")
+            print_color("==> Fail loading Model A.","red")
 
     def use_model(self, input_arr):
         """
