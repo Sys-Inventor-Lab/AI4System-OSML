@@ -52,8 +52,6 @@ def init_models():
         model_c_sub = Model_C(len(ACTION_SPACE_SUB), len(
             C_FEATURES["s"]), "model_c_sub", output_graph=False, e_greedy_increment=True)
 
-# @timer
-
 
 def filter_A_solutions(solutions, idle, mgr):
     sorted_keys = ["OAA", "RCliff"]
@@ -77,7 +75,6 @@ def sorted_B_solutions(priority):
     elif priority == 2:
         return ["Cache_Dominated_Spared", "Default_Spared", "Core_Dominated_Spared"]
 
-# @timer
 
 
 def filter_B_solutions(solutions, diffs):
@@ -115,7 +112,6 @@ def filter_B_solutions(solutions, diffs):
             candidates[diff_key] = B_solutions
     return candidates
 
-# @timer
 
 
 def filter_B_shadow_solutions(B_shadow_points, diffs, mgr):
@@ -167,14 +163,12 @@ def filter_B_shadow_solutions(B_shadow_points, diffs, mgr):
             candidates[diff_idx] = B_shadow_solutions
     return candidates
 
-# @timer
 
 
 def generate_deprivation_policy(solution, diff, mgr, app):
     diff = deepcopy(diff)
     deprivation_policy = {key: {"cores": 0, "ways": 0} for key in solution}
     aggressive = not mgr.is_QoS_met(app)
-    # aggressive=AGGRESSIVE
     while (diff["cores"] > 0 or diff["ways"] > 0):
         success = []
         if aggressive:
@@ -560,9 +554,6 @@ class program_mgr:
                       "OAA": {"ways": cache_2_way(output[2], MB_PER_WAY), "cores": int(round(output[3]))}}
         print_color("==> Use Model A for {}.".format(name), "cyan")
         logger.info("Use Model A for {}.".format(name))
-        # print_color("Input:{}".format(features),"cyan")
-        # print_color("Output:{}".format(output), "cyan")
-        # print_color("Trimmed_result:{}".format(result), "cyan")
 
         for key in ["RCliff", "OAA"]:
             result[key]["ways"] = min(N_WAYS, result[key]["ways"])
@@ -586,15 +577,12 @@ class program_mgr:
                       "OAA": {"ways": cache_2_way(output[2], MB_PER_WAY), "cores": int(round(output[3]))}}
         print_color("==> Use Model A' for {}.".format(name), "cyan")
         logger.info("Use Model A' for {}.".format(name))
-        # print_color("Output:{}".format(output), "cyan")
 
         for key in ["RCliff", "OAA"]:
             result[key]["ways"] = min(N_WAYS, result[key]["ways"])
             result[key]["ways"] = max(1, result[key]["ways"])
             result[key]["cores"] = min(N_CORES, result[key]["cores"])
             result[key]["cores"] = max(1, result[key]["cores"])
-
-        # print_color("Trimmed_result:{}".format(result), "cyan")
 
         self.programs[name].A_points = deepcopy(result)
         return result
@@ -620,11 +608,6 @@ class program_mgr:
                                                                      "cores": int(round(output[3]))}
                 B_points[(name, QoS_Reduction, "Cache_Dominated_Spared")] = {"ways": cache_2_way(output[4], MB_PER_WAY),
                                                                              "cores": int(round(output[5]))}
-                # print_color("----------\nName:{}".format(name),"cyan")
-                # print_color("QoS_Reduction:{}".format(QoS_Reduction),"cyan")
-                # print_color("Input:{}".format(B_features[name]),"cyan")
-                # print_color("Output:{}".format(output),"cyan")
-                # print_color("B_points:{}; {}; {}".format(B_points[(name, QoS_Reduction, "Core_Dominated_Spared")],B_points[(name, QoS_Reduction, "Default_Spared")],B_points[(name, QoS_Reduction, "Cache_Dominated_Spared")]),"cyan")
 
         return B_points
 
@@ -712,7 +695,6 @@ class program_mgr:
                 self.candidates_for_model_B(name), sharing_policy)
             B_shadow_solutions = filter_B_shadow_solutions(
                 B_shadow_points, {0: diff}, self)
-            # print_color("B_shadow_solutions: {}".format(B_shadow_solutions), "cyan")
 
             if len(B_shadow_solutions) == 0:
                 self.deadlock = True
@@ -722,7 +704,6 @@ class program_mgr:
                     B_shadow_solution = B_shadow_solutions[case][0]
                     deprivation_policy = generate_deprivation_policy(
                         B_shadow_solution, diff, self, name)
-                    # print_color("Deprivation policy: {}".format(deprivation_policy), "cyan")
                     apps = [key[0] for key in deprivation_policy.keys()]
                     action_cores = sum([deprivation_policy[key]["cores"]
                                        for key in deprivation_policy])
@@ -842,7 +823,6 @@ class program_mgr:
     def get_mode(self, name):
         return self.programs[name].get_mode()
 
-    # @timer
     def get_features(self, names, keys):
         return_list = True
         if not isinstance(names, list):
@@ -1063,7 +1043,6 @@ class program_mgr:
         if propagate:
             self.propagate_allocation()
 
-    #@timer
     def allocate_diff(self, name, allocation_diff, propagate=True):
         if name not in self.programs:
             self.propagate_allocation()

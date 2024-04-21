@@ -292,8 +292,7 @@ def init():
                         'Virt_Memory', 'Res_Memory', 'Allocated_Cache', 'Allocated_Core', 'Latency']
 
     # Features for data collection when multiple programs are running
-    COLLECT_MUL_FEATURES = ["CPU_Utilization", "Frequency", "IPC", "Misses", "LLC", "MBL", "Memory_Footprint", "Virt_Memory",
-                            "Res_Memory", "Allocated_Cache", "Allocated_Core", "MBL_N", "Allocated_Cache_N", "Allocated_Core_N", "Latency"]
+    COLLECT_MUL_FEATURES = ["CPU_Utilization", "Frequency", "IPC", "Misses", "MBL", "Virt_Memory", "Res_Memory", "Allocated_Cache", "Allocated_Core", "MBL_N", "Allocated_Cache_N", "Allocated_Core_N", "Latency"]
 
     # Features collected from Neighbors
     COLLECT_N_FEATURES = ["MBL", "Allocated_Cache", "Allocated_Core"]

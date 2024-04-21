@@ -5,7 +5,7 @@ We have uploaded the compiled workload applications into a Docker image. You can
 docker pull douxl5516/osml_artifact:v0.92
 ```
 
-But in order to run Tailbench, MongoDB and Nginx, you need to follow the instructions below to prepare input data for these applications.
+To run Tailbench, MongoDB and Nginx, you need to follow the instructions below to prepare input data for these applications.
 
 ## Tailbench
 
@@ -19,7 +19,7 @@ We've made changes to Tailbench, adding two new features:
 2. The request per second(RPS) of an application can be dynamically changed by writing the RPS value to a file named `RPS_NOW`.
 
 #### How to run Tailbench
-Download TailBench data [here](http://tailbench.csail.mit.edu/tailbench.inputs.tgz). Place the decompressed data in the `volume` directory of the host machine.
+Download TailBench data [here](http://tailbench.csail.mit.edu/tailbench.inputs.tgz). Place the decompressed data in the `volume/` directory of the host machine.
 
 ## MongoDB
 We use ycsb as the load generator. Run following scripts in the bash of the docker container with a name of `workload_container` to preload the test workload.

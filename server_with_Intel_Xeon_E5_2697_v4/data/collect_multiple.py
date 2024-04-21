@@ -8,6 +8,7 @@ import random
 sys.path.append("../")
 from program_mgr import program_mgr
 from configs import *
+from utils import print_color
 
 random.seed(1)
 
@@ -71,14 +72,14 @@ def main():
                         if os.path.exists(file_name):
                             continue
                         try:
-                            print(file_name)
+                            print_color("Collecting {} with {} as background apps, number of threads: {}, RPS: {}, allocated cores: {}, allocated cache ways: {}".format(name, " ".join([name+"@"+str(config[name]) for name in config]), thread, RPS, core_idx+1, way_idx+1), "green")
                             print(config)
                             colocate_enabled = not (core_idx == N_CORES - 1 or way_idx == N_WAYS - 1)
                             mgr = program_mgr()
-                            mgr.add_RPS(name, RPS, thread)
+                            mgr.add_app(name, "RPS", RPS, thread)
                             if colocate_enabled:
                                 for colocate_app in config:
-                                    mgr.add_RPS(colocate_app, config[colocate_app])
+                                    mgr.add_app(colocate_app, "RPS", config[colocate_app])
                             mgr.launch_all()
                             if colocate_enabled:
                                 mgr.allocate(name, {"cores": core_idx + 1, "ways": way_idx + 1}, propagate=False)
@@ -95,6 +96,7 @@ def main():
                             with open("error_log.txt", "a") as f:
                                 f.write(str([name, thread, RPS, core_idx, way_idx]) + '\n')
                                 f.write(str(e))
+                            raise e
                         os.system(ROOT + "/reset.sh {}".format(ROOT + "/"))
                         time.sleep(1)
 

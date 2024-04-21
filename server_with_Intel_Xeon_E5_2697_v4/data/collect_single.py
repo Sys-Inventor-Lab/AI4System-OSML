@@ -7,17 +7,15 @@ import time
 sys.path.append("../")
 from program_mgr import program_mgr
 from configs import *
+from utils import print_color
 
 ROOT_DIR = "data_collection/single/"
-NAMES = ["mongodb", "img-dnn", "xapian", "sphinx", "specjbb", "masstree", "login", "moses", "memcached"]
+NAMES = ["img-dnn", "xapian", "sphinx", "specjbb", "masstree", "login", "moses", "memcached", "mongodb"]
 MAX_THREADS = 36
 
 
 def collect(mgr, name, interval, n_records):
     df = pd.DataFrame(columns=COLLECT_FEATURES)
-    if name=="nginx":
-        print("sleep")
-        time.sleep(3)
     for i in range(n_records):
         time.sleep(interval)
         arr = mgr.get_features(name, COLLECT_FEATURES)
@@ -26,7 +24,6 @@ def collect(mgr, name, interval, n_records):
         arr = [float(item) for item in arr]
         print(arr)
         df.loc[df.shape[0]] = arr
-    print(df)
     return df
 
 
@@ -43,11 +40,12 @@ def main():
                         if os.path.exists(file_name):
                             continue
                         try:
-                            print(file_name)
+                            print_color("Collecting {}, number of threads: {}, RPS: {}, allocated cores: {}, allocated cache ways: {}".format(name, thread, RPS, core_idx+1, way_idx+1), "green")
                             mgr = program_mgr(enable_models=False)
-                            mgr.add_RPS(name, RPS, thread)
+                            mgr.add_app(name, "RPS", RPS, thread)
                             mgr.launch(name)
                             mgr.allocate(name, {"cores": core_idx + 1, "ways": way_idx + 1})
+                            time.sleep(1)
                             df = collect(mgr, name, 1, 10)
                             mgr.end_all()
                             df.to_csv(file_name,index=False)

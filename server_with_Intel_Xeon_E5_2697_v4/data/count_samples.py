@@ -47,12 +47,9 @@ def count_samples_B_shadow():
 
 def count_samples_C():
     n_samples=0
-    for root in ["single","multiple"]:
-        tmp_root = "data_process/Model_C/tmp/{}/".format(root)
-        for path_name in walk(tmp_root):
-            for path_thread in walk(path_name):
-                for path_RPS in walk(path_thread):
-                    n_samples += int(subprocess.check_output("wc -l {}".format(path_RPS), shell=True).decode().split()[0]) - 1 
+    root = "data_process/Model_C/"
+    for path_case in walk(root):
+        n_samples += int(subprocess.check_output("wc -l {}".format(path_case), shell=True).decode().split()[0]) - 1 
 
     print("Model C:")
     print("Samples:", n_samples)
