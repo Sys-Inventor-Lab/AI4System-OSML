@@ -17,3 +17,4 @@ server_with_Intel_Xeon_E5_2697_v4/scripts/
 server_with_Intel_Xeon_E5_2697_v4/html/
 server_with_Intel_Xeon_E5_2697_v4/evaluation.py
 server_with_Intel_Xeon_E5_2697_v4/data/logs/
+server_with_Intel_Xeon_E5_2697_v4/data/error_log.txt

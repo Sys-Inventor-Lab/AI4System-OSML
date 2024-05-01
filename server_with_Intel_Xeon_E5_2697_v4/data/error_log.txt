@@ -1,9 +1,0 @@
-['mongodb', 36, 1000, 63, 11]
-'program_mgr' object has no attribute 'add_RPS'['img-dnn', 36, 300, 0, 0]
-'program_mgr' object has no attribute 'add_RPS'['img-dnn', 36, 300, 63, 9]
-name 'print_color' is not defined
-['img-dnn', 36, 300, 0, 0]
-name 'print_color' is not defined['img-dnn', 36, 300, 0, 0]
-Replacement index 5 out of range for positional args tuple['img-dnn', 36, 300, 0, 0]
-can only concatenate str (not "int") to str['img-dnn', 36, 300, 0, 0]
-cannot set a row with mismatched columns
