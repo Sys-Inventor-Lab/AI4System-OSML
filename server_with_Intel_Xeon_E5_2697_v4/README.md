@@ -26,7 +26,7 @@ python3 -m pip install -r requirements.txt
 
 3. Pull the image containing benchmark applications from Docker Hub.
 ``` bash
-docker pull douxl5516/osml_artifact:v0.92
+docker pull sysinventor/osml_artifact:v0.92
 ```
 
 4. Prepare input data for benchmark applications following instructions in [apps/README.md](https://github.com/Sys-Inventor-Lab/AI4System-OSML/blob/master/server_with_Intel_Xeon_E5_2697_v4/apps/README.md). We use volumes so that the applications in the docker container can read the input data from the host machine.
@@ -80,8 +80,8 @@ During the scheduling process, the OSML scheduler records the response latency a
 ## How to Obtain OSML Dataset
 We have collected extensive real traces for widely deployed LC services on a platform equipped with an Intel Xeon E5-2697 v4 @ 2.3GHz CPU and 256GB memory. The traces are in a docker image. You can obtain the dataset using the following instructions. 
 ```
-docker pull douxl5516/osml_dataset:v1.0
-docker run -idt --name osml_dataset douxl5516/osml_dataset:v1.0 /bin/bash
+docker pull sysinventor/osml_dataset:v1.0
+docker run -idt --name osml_dataset sysinventor/osml_dataset:v1.0 /bin/bash
 docker cp osml_dataset:/home/data .
 ```
 
