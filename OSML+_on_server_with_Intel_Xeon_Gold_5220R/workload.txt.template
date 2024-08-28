@@ -1,0 +1,31 @@
+# 1. Add an LC application to the workload (one line for each application, split parameters with blanks)
+# Parameters:
+#   - Name of the application
+#   - Parse the next parameter as RPS or the percentage of the max load (Available options: ["RPS", "PCT"])
+#   - RPS value or percentage value
+#   - [Optional] Number of threads (default as N_CORES in configs.py)
+#   - [Optional] Launch time (The unit is seconds, default as 0)
+#   - [Optional] End time (The unit is seconds, default as None)
+# Example:
+img-dnn PCT 100 48 0
+login PCT 60 48 0
+ads PCT 60 48 0
+specjbb PCT 30 48 0
+xapian PCT 30 48 0
+
+# 2. Change the RPS of an LC application (only supported for Tailbench applications, one line for each RPS changing request, split parameters with blanks)
+# Parameters:
+#   - "CHANGE_RPS"
+#   - Name
+#   - Parse the next parameter as RPS or the percentage of the max load (Available options: ["RPS", "PCT"])
+#   - RPS value or percentage value
+#   - Time point when changing the RPS (The unit is seconds)
+# Example:
+CHANGE_RPS specjbb PCT 90 40
+
+# 3. Add a BE service to the workload (one line for each BE service, split parameters with blanks)
+# Parameters:
+#   - "BE"
+#   - Name
+# Example:
+BE blackscholes

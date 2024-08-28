@@ -1,0 +1,2 @@
+model_checkpoint_path: "/home/ai4system-osml/OSML_on_server_with_Intel_Xeon_E5_2697_v4/models/checkpoints/Model_B/Model_B.ckpt"
+all_model_checkpoint_paths: "/home/ai4system-osml/OSML_on_server_with_Intel_Xeon_E5_2697_v4/models/checkpoints/Model_B/Model_B.ckpt"
