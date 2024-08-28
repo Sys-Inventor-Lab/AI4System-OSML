@@ -2,7 +2,7 @@
 
 We have uploaded the compiled workload applications into a Docker image. You can pull the image by running the following command.
 ``` bash
-docker pull douxl5516/osml_artifact:v0.92
+docker pull sysinventor/osml_artifact:v0.92
 ```
 
 To run Tailbench, MongoDB and Nginx, you need to follow the instructions below to prepare input data for these applications.

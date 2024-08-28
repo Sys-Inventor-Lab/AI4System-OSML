@@ -300,7 +300,7 @@ def init():
 
 def init_docker():
     global DOCKER_IMAGE, DOCKER_CONTAINER, BIND_PATH, VOLUME_PATH
-    DOCKER_IMAGE = "douxl5516/osml_artifact:v0.92"
+    DOCKER_IMAGE = "sysinventor/osml_artifact:v0.92"
     DOCKER_CONTAINER = "workload_container"
     BIND_PATH = None
     VOLUME_PATH = None

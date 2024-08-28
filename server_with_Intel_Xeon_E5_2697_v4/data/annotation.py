@@ -55,8 +55,8 @@ def annotation(raw_path, label_root):
 
         OAA = [RCliff[0] + 2, RCliff[1] + 2]
 
-        print(lat_df.iloc[:, :18])
-        print(lat_df.iloc[:, 18:])
+        print(lat_df.iloc[:, :N_CORES//2])
+        print(lat_df.iloc[:, N_CORES//2:])
 
         print("name:", name)
         print("n_thread:", n_thread)

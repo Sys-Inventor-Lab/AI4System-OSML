@@ -16,7 +16,7 @@ NAMES = ["img-dnn", "xapian", "sphinx", "specjbb", "masstree", "moses", "mongodb
 COLOCATE_NAMES = ["img-dnn", "xapian", "sphinx", "specjbb", "masstree"]
 DATA_ROOT = "data_collection/multiple/"
 CONFIG_ROOT = "data_collection/configs_multiple/"
-THREADS = [36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16]
+THREADS = [N_CORES]
 
 
 def select_colocated_applications(exclude):

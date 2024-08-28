@@ -4,16 +4,16 @@
 This artifact is conducted on a server equipped with Intel Xeon E5-2679 v4. The platform specification is as following.
 
 ###### Table 1. Platform specification
-| Configuration              | Specification                               |
-| :------------------------: | :-----------------------------------------: | 
-| CPU Model                  | Intel Xeon E5-2697 v4                       |
-| Logical Processor Cores    | 36 Cores (18 phy.cores)                     |
-| Processor Speed            | 2.3GHz                                      |
-| Main Memory / Channel / BW | 256GB, 2400MHz DDR4 / 4 Channels / 76.8GB/s |
-| Private L1 & L2 Cache Size | 32KB and 256KB                              |
-| Shared L3 Cache Size       | 45MB - 20 ways                              |
-| 45MB - 20 ways             | 1TB, 7200 RPM, HD                           |
-| GPU                        | NVIDIA GP104 [GTX 1080], 8GB Memory         |
+| Configuration           | Specification           |
+| :---------------------: | :---------------------: |
+| CPU Model               | Intel Xeon E5-2697 v4   |
+| Logical Processor Cores | 36 Cores (18 phy.cores) |
+| Processor Speed         | 2.3 GHz                 |
+| Main Memory / Channel per-socket / BW per-socket | 256 GB, 2400 MHz DDR4 / 4 Channels / 76.8 GB/s|
+| L1I, L1D & L2 Cache Size | 32 KB, 32 KB and 256 KB |
+| Shared L3 Cache Size    | 45 MB - 20 ways         |
+| Disk                    | 1 TB, 7200 RPM, HD      |
+| GPU                     | NVIDIA GP104 [GTX 1080], 8 GB Memory |
 
 
 ## Pre-requirements and Benchmark Setup
@@ -33,10 +33,10 @@ docker pull sysinventor/osml_artifact:v0.92
 
 5. Install Intel's [pqos tool](https://github.com/intel/intel-cmt-cat).
 ```bash
-cd thirdpart/
-tar -xvf intel-cmt-cat.tar.gz
-cd intel-cmt-cat/
-make -j
+wget https://github.com/intel/intel-cmt-cat/archive/refs/tags/v24.05.tar.gz
+tar -xvf intel-cmt-cat-24.05.tar.gz
+cd intel-cmt-cat-24.05/
+make -j 32
 make install
 cd ../
 ```

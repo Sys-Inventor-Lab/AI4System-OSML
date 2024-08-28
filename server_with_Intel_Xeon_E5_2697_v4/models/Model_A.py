@@ -13,7 +13,7 @@ from utils import *
 tf.disable_eager_execution()
 
 # Configurations
-model_dir = ROOT + "/models/Model_A/"
+model_dir = ROOT + "/models/checkpoints/Model_A/"
 model_path = model_dir + "Model_A.ckpt"
 log_dir = ROOT + "/models/logs/"
 log_path = log_dir + "Model_A_loss.csv"
