@@ -39,7 +39,7 @@ OSML/OSML+ can generalize across platforms. We provide OSML and OSML+'s implemen
 
 3. **OSML+ on a server equipped with an Intel Xeon Gold 6338 CPU**
     - OSML+ can be generalized to new platforms using transfer learning. We collect traces for only a few hours on this platform. The ML models are trained using transfer learning based on pre-trained models from [the server with Intel Xeon E5 2697 v4](https://github.com/Sys-Inventor-Lab/AI4System-OSML/blob/master/OSML+_on_server_with_Intel_Xeon_E5_2697_v4). The ML models perform well on the new platform.
-    - Link: [OSML+_on_server_with_Intel_Xeon_Gold_6338](https://github.com/Sys-Inventor-Lab/AI4System-OSML-Plus/blob/master/OSML+_on_server_with_Intel_Xeon_Gold_6338)
+    - Link: [OSML+_on_server_with_Intel_Xeon_Gold_6338](https://github.com/Sys-Inventor-Lab/AI4System-OSML/blob/master/OSML+_on_server_with_Intel_Xeon_Gold_6338)
     - Platform configuration:
         | Configuration           | Specification           |
         | :---------------------: | :---------------------: | 
@@ -55,7 +55,7 @@ OSML/OSML+ can generalize across platforms. We provide OSML and OSML+'s implemen
 
 4. **OSML+ on a server equipped with an Intel Xeon Gold 5220R CPU**
     - On this platform, we also collect traces for a few hours and train the models using transfer learning based on pre-trained models from [the server with Intel Xeon E5 2697 v4](https://github.com/Sys-Inventor-Lab/AI4System-OSML/blob/master/OSML+_on_server_with_Intel_Xeon_E5_2697_v4). The ML models perform well on the new platform.
-    - Link: [OSML+_on_server_with_Intel_Xeon_5220R](https://github.com/Sys-Inventor-Lab/AI4System-OSML-Plus/blob/master/OSML+_on_server_with_Intel_Xeon_Gold_5220R)
+    - Link: [OSML+_on_server_with_Intel_Xeon_5220R](https://github.com/Sys-Inventor-Lab/AI4System-OSML/blob/master/OSML+_on_server_with_Intel_Xeon_Gold_5220R)
     - Platform configuration:
         | Configuration           | Specification           |
         | :---------------------: | :---------------------: | 
