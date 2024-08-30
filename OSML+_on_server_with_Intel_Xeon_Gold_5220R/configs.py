@@ -299,7 +299,7 @@ def init_docker():
     PARSEC_IMAGE = "spirals/parsec-3.0:latest"
     BIND_PATH = None
     VOLUME_PATH = None
-    # Start workload_container and get the volume path
+    # Start bechmark_container and get the volume path
     outs, errs = shell_output("docker pull {}".format(DOCKER_IMAGE), wait=True, output=False)
     logger.info((outs, errs))
     outs, errs = shell_output("docker pull {}".format(PARSEC_IMAGE), wait=True, output=False)

@@ -21,7 +21,7 @@ data_dir = ROOT + "/data/data_process/Model_A/"
 data_path_train = data_dir + "Model_A_train.csv"
 data_path_test = data_dir + "Model_A_test.csv"
 data_path_valid = data_dir + "Model_A_valid.csv"
-max_min_path = ROOT + "/data/data_process/max_min.txt"
+max_min_path = ROOT + "/data/data_process/max_min/max_min_Model_A.txt"
 
 
 class Model_A:
@@ -36,8 +36,8 @@ class Model_A:
         with open(max_min_path, "r") as f:
             max_min = eval(f.readline())
             self.max_min = {}
-            self.max_min["input_max"] = [max_min["max"][feature] for feature in A_FEATURES]
-            self.max_min["input_min"] = [max_min["min"][feature] for feature in A_FEATURES]
+            self.max_min["input_max"] = max_min["max"]
+            self.max_min["input_min"] = max_min["min"]
         tf.reset_default_graph()
         self.create_network()
         self.saver = tf.train.Saver()

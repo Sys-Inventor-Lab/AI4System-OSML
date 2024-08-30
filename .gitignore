@@ -9,7 +9,8 @@
 */evaluations/
 */*.pkl
 */data/data_collection/*
-*/data/data_process/*
+*/data/data_process/Model_*
+*/data/data_process/labels_*
 */error_log.txt
 */apps/nginx/html/*
 */res/

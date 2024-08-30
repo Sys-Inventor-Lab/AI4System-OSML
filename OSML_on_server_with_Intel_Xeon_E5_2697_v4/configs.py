@@ -148,33 +148,33 @@ def init():
                  }
 
     # Instructions for launching each application
-    LAUNCH_STR = {"img-dnn": "docker exec -itd workload_container /home/OSML_Artifact/apps/tailbench-v0.9/img-dnn/run.sh {RPS} 1440000 {threads}",
-                  "xapian": "docker exec -itd workload_container /home/OSML_Artifact/apps/tailbench-v0.9/xapian/run.sh {RPS} 1632000 {threads}",
-                  "moses": "docker exec -itd workload_container /home/OSML_Artifact/apps/tailbench-v0.9/moses/run.sh {RPS} 870000 {threads}",
-                  "sphinx": "docker exec -itd workload_container /home/OSML_Artifact/apps/tailbench-v0.9/sphinx/run.sh {RPS} 9600 {threads}",
-                  "specjbb": "docker exec -itd workload_container /home/OSML_Artifact/apps/tailbench-v0.9/specjbb/run.sh {RPS} 9000000 {threads}",
-                  "masstree": "docker exec -itd workload_container /home/OSML_Artifact/apps/tailbench-v0.9/masstree/run.sh {RPS} 2760000 {threads}",
-                  "mongodb": ["docker exec -itd workload_container mongod -f /etc/mongod.conf --nojournal",
-                              "docker exec -itd workload_container mkdir -p /home/OSML_Artifact/apps/tmp/mongod_result/",
-                              "docker exec -itd workload_container bash -c 'python2 /home/OSML_Artifact/apps/mongodb/ycsb-0.12.0/bin/ycsb run mongodb -s -P /home/OSML_Artifact/apps/mongodb/ycsb-0.12.0/workloads/test -load -p status.interval=1 -p maxexecutiontime=600 -p target={RPS} -p threadcount={threads} 2>/home/OSML_Artifact/apps/tmp/mongod_result/ycsb_result'"],
+    LAUNCH_STR = {"img-dnn": "docker exec -itd " +  DOCKER_CONTAINER + " /home/OSML_Artifact/apps/tailbench-v0.9/img-dnn/run.sh {RPS} 1440000 {threads}",
+                  "xapian": "docker exec -itd " +  DOCKER_CONTAINER + " /home/OSML_Artifact/apps/tailbench-v0.9/xapian/run.sh {RPS} 1632000 {threads}",
+                  "moses": "docker exec -itd " +  DOCKER_CONTAINER + " /home/OSML_Artifact/apps/tailbench-v0.9/moses/run.sh {RPS} 870000 {threads}",
+                  "sphinx": "docker exec -itd " +  DOCKER_CONTAINER + " /home/OSML_Artifact/apps/tailbench-v0.9/sphinx/run.sh {RPS} 9600 {threads}",
+                  "specjbb": "docker exec -itd " +  DOCKER_CONTAINER + " /home/OSML_Artifact/apps/tailbench-v0.9/specjbb/run.sh {RPS} 9000000 {threads}",
+                  "masstree": "docker exec -itd " +  DOCKER_CONTAINER + " /home/OSML_Artifact/apps/tailbench-v0.9/masstree/run.sh {RPS} 2760000 {threads}",
+                  "mongodb": ["docker exec -itd " +  DOCKER_CONTAINER + " mongod -f /etc/mongod.conf --nojournal",
+                              "docker exec -itd " +  DOCKER_CONTAINER + " mkdir -p /home/OSML_Artifact/apps/tmp/mongod_result/",
+                              "docker exec -itd " +  DOCKER_CONTAINER + " bash -c 'python2 /home/OSML_Artifact/apps/mongodb/ycsb-0.12.0/bin/ycsb run mongodb -s -P /home/OSML_Artifact/apps/mongodb/ycsb-0.12.0/workloads/test -load -p status.interval=1 -p maxexecutiontime=600 -p target={RPS} -p threadcount={threads} 2>/home/OSML_Artifact/apps/tmp/mongod_result/ycsb_result'"],
                   "memcached": [
-                      "docker exec -itd workload_container /home/OSML_Artifact/apps/memcached/memcached-1.4.15/memcached -d -m 40960 -u root -c 2048 -t {threads}",
-                      "docker exec -itd workload_container bash -c 'taskset -c 24-47 nohup /home/OSML_Artifact/apps/memcached/mutilate/mutilate -s 127.0.0.1:11211 -T "+str(N_CORES)+" -Q {RPS} -C 64 -t 600 -K 50 -V 400 > /home/OSML_Artifact/apps/tmp/memcached_lats_of_last_second.txt &'"],
-                  "login": "docker exec -itd workload_container /home/OSML_Artifact/apps/tailbench-v0.9/login/run.sh {RPS} 168000 {threads}",
-                  "mysql": ["docker exec -itd workload_container mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=root --log-error=obuntu213.err --pid-file=obuntu213.pid",
-                            "docker exec -itd workload_container mkdir -p /home/OSML_Artifact/apps/tmp/mysql_result/",
-                            "docker exec -itd workload_container bash -c 'python2 /home/OSML_Artifact/apps/mongodb/ycsb-0.12.0/bin/ycsb run jdbc -s -P /home/OSML_Artifact/apps/mongodb/ycsb-0.12.0/jdbc-binding/conf/db.properties -P /home/OSML_Artifact/apps/mongodb/ycsb-0.12.0/workloads/test_mysql -load -p status.interval=1 -p maxexecutiontime=600 -p target={RPS} -p threadcount={threads} 2>/home/OSML_Artifact/apps/tmp/mysql_result/ycsb_result'"],
-                  "silo": "docker exec -itd workload_container /home/OSML_Artifact/apps/tailbench-v0.9/silo/run.sh {RPS} 1440000 {threads}",
-                  "ads": "docker exec -itd workload_container /home/OSML_Artifact/apps/tailbench-v0.9/ads/run.sh {RPS} 600000 {threads}",
-                  "nginx": ["docker exec -itd workload_container cp /home/OSML_Artifact/apps/nginx/nginx.conf.default /usr/local/nginx/conf/nginx.conf",
-                            "docker exec -itd workload_container sed -i 's#worker_processes 1;#worker_processes {threads};#g' /usr/local/nginx/conf/nginx.conf",
-                            "docker exec -itd workload_container nginx",
-                            "docker exec -itd workload_container /home/OSML_Artifact/apps/nginx/wrk2/run.sh {RPS} 600"],
-                  "redis": ["docker exec -itd workload_container /usr/local/bin/redis-server /etc/redis/redis.conf",
-                            "docker exec -itd workload_container mkdir -p /home/OSML_Artifact/apps/tmp/redis_result/"
-                            "docker exec -itd workload_container bash -c 'python2 /home/OSML_Artifact/apps/mongodb/ycsb-0.12.0/bin/ycsb run redis -s -P /home/OSML_Artifact/apps/mongodb/ycsb-0.12.0/workloads/test_redis -load -p status.interval=1 -p maxexecutiontime=600 -p target={RPS} -p threadcount={threads} 2>/home/OSML_Artifact/apps/tmp/redis_result/ycsb_result'"],
-                  "nodejs": ["docker exec -itd workload_container node /home/OSML_Artifact/apps/nodejs/index.js",
-                             "docker exec -itd workload_container /home/OSML_Artifact/apps/nodejs/run_wrk.sh {RPS} 600"]
+                      "docker exec -itd " +  DOCKER_CONTAINER + " memcached -d -m 40960 -u root -c 2048 -t {threads}",
+                      "docker exec -itd " +  DOCKER_CONTAINER + " bash -c '/home/OSML_Artifact/apps/memcached/mutilate/mutilate -s 127.0.0.1:11211 -T "+str(N_CORES)+" -Q {RPS} -C 64 -t 600 -K 50 -V 400 > /home/OSML_Artifact/apps/tmp/memcached_lats_of_last_second.txt'"],
+                  "login": "docker exec -itd " +  DOCKER_CONTAINER + " /home/OSML_Artifact/apps/tailbench-v0.9/login/run.sh {RPS} 168000 {threads}",
+                  "mysql": ["docker exec -itd " +  DOCKER_CONTAINER + " mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=root --log-error=obuntu213.err --pid-file=obuntu213.pid",
+                            "docker exec -itd " +  DOCKER_CONTAINER + " mkdir -p /home/OSML_Artifact/apps/tmp/mysql_result/",
+                            "docker exec -itd " +  DOCKER_CONTAINER + " bash -c 'python2 /home/OSML_Artifact/apps/mongodb/ycsb-0.12.0/bin/ycsb run jdbc -s -P /home/OSML_Artifact/apps/mongodb/ycsb-0.12.0/jdbc-binding/conf/db.properties -P /home/OSML_Artifact/apps/mongodb/ycsb-0.12.0/workloads/test_mysql -load -p status.interval=1 -p maxexecutiontime=600 -p target={RPS} -p threadcount={threads} 2>/home/OSML_Artifact/apps/tmp/mysql_result/ycsb_result'"],
+                  "silo": "docker exec -itd " +  DOCKER_CONTAINER + " /home/OSML_Artifact/apps/tailbench-v0.9/silo/run.sh {RPS} 1440000 {threads}",
+                  "ads": "docker exec -itd " +  DOCKER_CONTAINER + " /home/OSML_Artifact/apps/tailbench-v0.9/ads/run.sh {RPS} 600000 {threads}",
+                  "nginx": ["docker exec -itd " +  DOCKER_CONTAINER + " cp /home/OSML_Artifact/apps/nginx/nginx.conf.default /usr/local/nginx/conf/nginx.conf",
+                            "docker exec -itd " +  DOCKER_CONTAINER + " sed -i 's#worker_processes 1;#worker_processes {threads};#g' /etc/nginx/nginx.conf",
+                            "docker exec -itd " +  DOCKER_CONTAINER + " nginx",
+                            "docker exec -itd " +  DOCKER_CONTAINER + " /home/OSML_Artifact/apps/nginx/wrk2/run.sh {RPS} 600"],
+                  "redis": ["docker exec -itd " +  DOCKER_CONTAINER + " /usr/local/bin/redis-server /etc/redis/redis.conf",
+                            "docker exec -itd " +  DOCKER_CONTAINER + " mkdir -p /home/OSML_Artifact/apps/tmp/redis_result/"
+                            "docker exec -itd " +  DOCKER_CONTAINER + " bash -c 'python2 /home/OSML_Artifact/apps/mongodb/ycsb-0.12.0/bin/ycsb run redis -s -P /home/OSML_Artifact/apps/mongodb/ycsb-0.12.0/workloads/test_redis -load -p status.interval=1 -p maxexecutiontime=600 -p target={RPS} -p threadcount={threads} 2>/home/OSML_Artifact/apps/tmp/redis_result/ycsb_result'"],
+                  "nodejs": ["docker exec -itd " +  DOCKER_CONTAINER + " node /home/OSML_Artifact/apps/nodejs/index.js",
+                             "docker exec -itd " +  DOCKER_CONTAINER + " /home/OSML_Artifact/apps/nodejs/run_wrk.sh {RPS} 600"]
                   }
 
     # Warmup time after launching an application, in second
@@ -300,34 +300,27 @@ def init():
 
 def init_docker():
     global DOCKER_IMAGE, DOCKER_CONTAINER, BIND_PATH, VOLUME_PATH
-    DOCKER_IMAGE = "sysinventor/osml_artifact:v0.92"
-    DOCKER_CONTAINER = "workload_container"
+    DOCKER_IMAGE = "sysinventor/osml_benchmark:v1.0"
+    DOCKER_CONTAINER = "benchmark_container"
     BIND_PATH = None
     VOLUME_PATH = None
-    # Start workload_container and get the volume path
+    # Start benchmark_container and get the volume path
     os.system("docker pull {}".format(DOCKER_IMAGE))
-    os.system("docker run -idt -v /home/AI4System-OSML:/home/OSML_Artifact/volume:rw  --name {} {} /bin/bash".format(DOCKER_CONTAINER, DOCKER_IMAGE))
+    outs, errs = shell_output("docker run -idt -v {}/volume:/home/OSML_Artifact/volume:rw -v /home/OSML_Artifact/apps --name {} {} /bin/bash".format(ROOT,DOCKER_CONTAINER, DOCKER_IMAGE), wait=True, output=False)
     os.system("docker start {}".format(DOCKER_CONTAINER))
     inspect_info = eval(subprocess.check_output("docker inspect {}".format(DOCKER_CONTAINER), shell=True).decode().replace("false", "False").replace("null", "None").replace("true", "True"))
     mount_info = inspect_info[0]["Mounts"]
-
 
     for item in mount_info:
         if item["Type"] == "volume":
             VOLUME_PATH = item["Source"]
         elif item["Type"] == "bind":
             BIND_PATH = item["Source"]
-
+    print(VOLUME_PATH)
 
     def init_tailbench():
-        # Set this to point to the top level of the TailBench data directory
-        PATH_TAILBENCH_INPUTS = ROOT+"/volume/tailbench.inputs/"
-        # Prepare inputs for tailbench
-        if not os.path.exists(PATH_TAILBENCH_INPUTS):
-            raise Exception("Please download inputs for Tailbench.")
         if not os.path.exists(BIND_PATH+"/tailbench.inputs"):
-            os.system("cp -r {} {}".format(PATH_TAILBENCH_INPUTS,
-                      BIND_PATH+"/tailbench.inputs"))
+            raise Exception("Please download the input of tailbench and put the \"tailbench.inputs\" folder in {}".format(BIND_PATH))
 
     def init_nginx():
         # Set this to point to the top level of the Nginx data directory
@@ -339,8 +332,7 @@ def init_docker():
         if not os.path.exists(BIND_PATH+"/html"):
             print("Copying html to docker volume, wait a moment.")
             os.system("sudo cp -r /dev/shm/html "+BIND_PATH+"/html")
-            os.system(
-                "docker exec -itd workload_container cp -r /home/OSML_Artifact/volume/html /dev/shm/")
+            os.system("docker exec -itd "+DOCKER_CONTAINER+" cp -r /home/OSML_Artifact/volume/html /dev/shm/")
 
     init_tailbench()
     init_nginx()

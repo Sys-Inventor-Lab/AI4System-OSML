@@ -22,7 +22,7 @@ We've made changes to Tailbench, adding two new features:
 Download TailBench data [here](http://tailbench.csail.mit.edu/tailbench.inputs.tgz). Place the decompressed data in the `volume/` directory of the host machine.
 
 ## MongoDB
-We use ycsb as the load generator. Run following scripts in the bash of the docker container with a name of `workload_container` to preload the test workload.
+We use ycsb as the load generator. Run following scripts in the bash of the docker container with a name of `benchmark_container` to preload the test workload.
 ```bash
 mongod -f /etc/mongod.conf &
 python2 /home/OSML_Artifact/apps/mongodb/ycsb-0.12.0/bin/ycsb load mongodb -s -P /home/OSML_Artifact/apps/mongodb/ycsb-0.12.0/workloads/test_load

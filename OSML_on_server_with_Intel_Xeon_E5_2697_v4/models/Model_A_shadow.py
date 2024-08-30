@@ -14,7 +14,7 @@ tf.disable_eager_execution()
 tf.reset_default_graph()
 
 # Configurations
-model_dir = ROOT + "/models/Model_A_shadow/"
+model_dir = ROOT + "/models/checkpoints/Model_A_shadow/"
 model_path = model_dir + "Model_A_shadow.ckpt"
 log_dir = ROOT + "/models/logs/"
 log_path = log_dir + "Model_A_shadow_loss.csv"
@@ -22,7 +22,7 @@ data_dir = ROOT + "/data/data_process/Model_A_shadow/"
 data_path_train = data_dir + "Model_A_shadow_train.csv"
 data_path_test = data_dir + "Model_A_shadow_test.csv"
 data_path_valid = data_dir + "Model_A_shadow_valid.csv"
-max_min_path = ROOT + "/data/data_process/max_min.txt"
+max_min_path = ROOT + "/data/data_process/max_min/max_min_Model_A_shadow.txt"
 
 
 class Model_A_shadow:
@@ -37,8 +37,8 @@ class Model_A_shadow:
         with open(max_min_path, "r") as f:
             max_min = eval(f.readline())
             self.max_min = {}
-            self.max_min["input_max"] = [max_min["max"][feature] for feature in A_SHADOW_FEATURES]
-            self.max_min["input_min"] = [max_min["min"][feature] for feature in A_SHADOW_FEATURES]
+            self.max_min["input_max"] = max_min["max"]
+            self.max_min["input_min"] = max_min["min"]
         tf.reset_default_graph()
         self.create_network()
         self.saver = tf.train.Saver()
@@ -188,5 +188,5 @@ def test_model():
 
 
 if __name__ == "__main__":
-    train_model()
+    #train_model()
     test_model()
