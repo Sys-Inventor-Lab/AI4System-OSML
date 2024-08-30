@@ -1,2 +1,2 @@
-model_checkpoint_path: "/home/ai4system-osml/OSML_on_server_with_Intel_Xeon_E5_2697_v4/models/checkpoints/Model_C/model_c_sub/model_c_sub"
-all_model_checkpoint_paths: "/home/ai4system-osml/OSML_on_server_with_Intel_Xeon_E5_2697_v4/models/checkpoints/Model_C/model_c_sub/model_c_sub"
+model_checkpoint_path: "/home/douxinglei/github/AI4System-OSML/OSML_on_server_with_Intel_Xeon_E5_2697_v4/models/checkpoints/Model_C/model_c_sub/model_c_sub"
+all_model_checkpoint_paths: "/home/douxinglei/github/AI4System-OSML/OSML_on_server_with_Intel_Xeon_E5_2697_v4/models/checkpoints/Model_C/model_c_sub/model_c_sub"

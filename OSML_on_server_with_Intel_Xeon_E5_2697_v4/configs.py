@@ -305,9 +305,9 @@ def init_docker():
     BIND_PATH = None
     VOLUME_PATH = None
     # Start benchmark_container and get the volume path
-    os.system("docker pull {}".format(DOCKER_IMAGE))
+    outs, errs = shell_output("docker pull {}".format(DOCKER_IMAGE),wait=True,output=False)
     outs, errs = shell_output("docker run -idt -v {}/volume:/home/OSML_Artifact/volume:rw -v /home/OSML_Artifact/apps --name {} {} /bin/bash".format(ROOT,DOCKER_CONTAINER, DOCKER_IMAGE), wait=True, output=False)
-    os.system("docker start {}".format(DOCKER_CONTAINER))
+    outs, errs = shell_output("docker start {}".format(DOCKER_CONTAINER), wait=True, output=False)
     inspect_info = eval(subprocess.check_output("docker inspect {}".format(DOCKER_CONTAINER), shell=True).decode().replace("false", "False").replace("null", "None").replace("true", "True"))
     mount_info = inspect_info[0]["Mounts"]
 
@@ -316,7 +316,6 @@ def init_docker():
             VOLUME_PATH = item["Source"]
         elif item["Type"] == "bind":
             BIND_PATH = item["Source"]
-    print(VOLUME_PATH)
 
     def init_tailbench():
         if not os.path.exists(BIND_PATH+"/tailbench.inputs"):
