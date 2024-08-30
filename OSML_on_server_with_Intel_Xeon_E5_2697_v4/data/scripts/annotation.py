@@ -2,7 +2,6 @@ import pandas as pd
 import sys
 from tqdm import tqdm
 
-sys.path.append("../")
 sys.path.append("../../")
 from utils import *
 
@@ -105,8 +104,8 @@ def get_labels(raw_path, label_root):
 
 if __name__ == '__main__':
     for root in ["single", "multiple"]:
-        raw_root = "data_collection/" + root + "/"
-        label_root = "data_process/labels_" + root + "/"
+        raw_root = ROOT+"data/data_collection/" + root + "/"
+        label_root = ROOT+"data/data_process/labels_" + root + "/"
         paths=[]
         for path_1 in walk(raw_root):
             for path_2 in walk(path_1):

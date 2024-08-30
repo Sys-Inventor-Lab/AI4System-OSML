@@ -94,11 +94,11 @@ docker cp osml_plus_dataset_Gold_5220R:/home/data .
 ```
 
 ## How to Collect Your Own Dataset
-1. Run `collect_multiple.py` in the `data/` directory to collect traces with background applications.
+1. Run `collect_multiple.py` in the `data/scripts/` directory to collect traces with background applications.
    
-2. Run `generate_dataset.sh` in the `data/` directory to label the raw data, and generated the dataset used for ML model training.
+2. Run `generate_dataset.sh` in the `data/scripts/` directory to label the raw data, and generated the dataset used for ML model training.
 
-We have collected extensive real traces for widely deployed LC services. The traces are in the docker images. Run `./get_data_from_docker_image.sh` in the `data` directory to get the traces. Run `./unzip_dataset.sh` in the `data/` directory to unzip the dataset. Data in the `data_collection` directory are raw data. Data in the `data_process` directory are processed dataset used for model training. Run `python count_samples.py` to see how many allocation cases or samples are covered by the dataset.
+Data in the `data_collection` directory are raw data. Data in the `data_process` directory are processed dataset used for model training. Run `python count_samples.py` to see how many samples are covered by the dataset.
 
 ## How to Train and Test the ML Models
 1. The data set collected on [OSML+_on_server_with_Intel_Xeon_E5_2697_v4](https://github.com/Sys-Inventor-Lab/AI4System-OSML/tree/master/OSML+_on_server_with_Intel_Xeon_E5_2697_v4) has a rich set of information. We provide pre-trained models trained using these traces to facilitate low-overhead transfer learning on new platforms. The pre-trained model parameters are in the `[models/pretrained/](https://github.com/Sys-Inventor-Lab/AI4System-OSML/tree/master/OSML+_on_server_with_Intel_Xeon_Gold_5220R/models/pretrained)` folder. 

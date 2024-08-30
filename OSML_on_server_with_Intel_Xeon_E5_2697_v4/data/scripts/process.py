@@ -6,7 +6,7 @@ from copy import deepcopy
 from annotation import annotation, get_labels
 import threading
 import multiprocessing
-sys.path.append("../")
+sys.path.append("../../")
 from utils import *
 from configs import *
 
@@ -18,10 +18,10 @@ WAY_INDEX = list(range(0, N_WAYS))
 MB_PER_WAY=2.25
 
 def process_A(n_threads=N_CORES):
-    raw_root = "data_collection/single/"
-    data_root = "data_process/Model_A/"
-    tmp_root = "data_process/Model_A/tmp/"
-    label_root = "data_process/labels_single/"
+    raw_root = ROOT+"data/data_collection/single/"
+    data_root = ROOT+"data/data_process/Model_A/"
+    tmp_root = ROOT+"data/data_process/Model_A/tmp/"
+    label_root = ROOT+"data/data_process/labels_single/"
 
     mutex=threading.Lock()
     paths=[]
@@ -92,10 +92,10 @@ def process_A(n_threads=N_CORES):
         t.start()
 
 def process_A_shadow(n_threads=N_CORES):
-    raw_root = "data_collection/multiple/"
-    data_root = "data_process/Model_A_shadow/"
-    tmp_root = "data_process/Model_A_shadow/tmp/"
-    label_root = "data_process/labels_multiple/" 
+    raw_root = ROOT+"data/data_collection/multiple/"
+    data_root = ROOT+"data/data_process/Model_A_shadow/"
+    tmp_root = ROOT+"data/data_process/Model_A_shadow/tmp/"
+    label_root = ROOT+"data/data_process/labels_multiple/" 
 
     mutex=threading.Lock()
     paths=[]
@@ -167,10 +167,10 @@ def process_A_shadow(n_threads=N_CORES):
         t.start() 
 
 def process_B():
-    raw_root = "data_collection/multiple/"
-    data_root = "data_process/Model_B/"
-    tmp_root = "data_process/Model_B/tmp/" 
-    label_root = "data_process/labels_multiple/"
+    raw_root = ROOT+"data/data_collection/multiple/"
+    data_root = ROOT+"data/data_process/Model_B/"
+    tmp_root = ROOT+"data/data_process/Model_B/tmp/" 
+    label_root = ROOT+"data/data_process/labels_multiple/"
     names = {}
     for path_name in walk(raw_root):
         for path_thread in walk(path_name):
@@ -193,10 +193,10 @@ def process_B():
         pool.join()
 
 def process_B_process(args):
-    raw_root = "data_collection/multiple/"
-    data_root = "data_process/Model_B/"
-    tmp_root = "data_process/Model_B/tmp/" 
-    label_root = "data_process/labels_multiple/"
+    raw_root = ROOT+"data/data_collection/multiple/"
+    data_root = ROOT+"data/data_process/Model_B/"
+    tmp_root = ROOT+"data/data_process/Model_B/tmp/" 
+    label_root = ROOT+"data/data_process/labels_multiple/"
     whole_queue = args[0]
     while whole_queue.qsize() != 0:
         try:
@@ -276,10 +276,10 @@ def process_B_process(args):
         print(str(os.getpid()) + " finished " + path_RPS)
 
 def process_B_shadow():
-    raw_root = "data_collection/multiple/"
-    data_root = "data_process/Model_B_shadow/"
-    tmp_root = "data_process/Model_B_shadow/tmp/" 
-    label_root = "data_process/labels_multiple/"
+    raw_root = ROOT+"data/data_collection/multiple/"
+    data_root = ROOT+"data/data_process/Model_B_shadow/"
+    tmp_root = ROOT+"data/data_process/Model_B_shadow/tmp/" 
+    label_root = ROOT+"data/data_process/labels_multiple/"
     names = {}
     for path_name in walk(raw_root):
         for path_thread in walk(path_name):
@@ -302,10 +302,10 @@ def process_B_shadow():
         pool.join()
     
 def process_B_shadow_process(args):
-    raw_root = "data_collection/multiple/"
-    data_root = "data_process/Model_B_shadow/"
-    tmp_root = "data_process/Model_B_shadow/tmp/" 
-    label_root = "data_process/labels_multiple/"
+    raw_root = ROOT+"data/data_collection/multiple/"
+    data_root = ROOT+"data/data_process/Model_B_shadow/"
+    tmp_root = ROOT+"data/data_process/Model_B_shadow/tmp/" 
+    label_root = ROOT+"data/data_process/labels_multiple/"
     whole_queue = args[0]
     while whole_queue.qsize() != 0:
         try:
@@ -384,7 +384,7 @@ def process_C_process(args):
             break
         print(path_RPS)
         colocation, name, n_thread, RPS = path_RPS.split('/')[-4:]
-        tmp_root = "data_process/Model_C/tmp/"
+        tmp_root = ROOT+"data/data_process/Model_C/tmp/"
         tmp_dir = tmp_root+"{}/{}/{}/".format(colocation,name,n_thread)
         tmp_path = tmp_dir+"{}.csv".format(RPS)
         if os.path.exists(tmp_path):
@@ -433,8 +433,8 @@ def process_C():
     names = {}
     bench_df = pd.DataFrame()
     for root in ["single","multiple"]:
-        raw_root = "data_collection/{}/".format(root)
-        data_root = "data_process/Model_C/{}/".format(root)
+        raw_root = ROOT+"data/data_collection/{}/".format(root)
+        data_root = ROOT+"data/data_process/Model_C/{}/".format(root)
         for path_name in walk(raw_root):
             for path_thread in walk(path_name):
                 for path_RPS in walk(path_thread):

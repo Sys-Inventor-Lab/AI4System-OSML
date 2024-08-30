@@ -3,12 +3,12 @@ import sys
 from tqdm import tqdm
 import numpy as np
 
-sys.path.append("../")
+sys.path.append("../../")
 from utils import *
 
 
 def clean_data_offline(dataset):
-    path="data_process/{}/{}.csv".format(dataset,dataset)
+    path=ROOT+"data/data_process/{}/{}.csv".format(dataset,dataset)
     if not os.path.exists(path):
         return
     df = pd.read_csv(path)
@@ -16,7 +16,7 @@ def clean_data_offline(dataset):
     df.to_csv(path, index=None)
 
 def clean_data_online(dataset):
-    path="data_process/{}/".format(dataset)
+    path=ROOT+"data/data_process/{}/".format(dataset)
     for path_case in tqdm(walk(path)):
         print(path_case)
         df=pd.read_csv(path_case)

@@ -2,7 +2,7 @@ import pandas as pd
 import sys
 from tqdm import tqdm
 
-sys.path.append("../")
+sys.path.append("../../")
 from utils import *
 from configs import *
 
@@ -41,5 +41,5 @@ if __name__ == '__main__':
     feature_map = {"Model_A":A_FEATURES, "Model_A_shadow":A_SHADOW_FEATURES, "Model_B":B_FEATURES, "Model_B_shadow":B_SHADOW_FEATURES}
     label_map = {"Model_A":A_LABELS, "Model_A_shadow":A_LABELS,"Model_B":B_LABELS,"Model_B_shadow":B_SHADOW_LABELS}
     for dataset in datasets:
-        path = "data_process/{}/{}".format(dataset, dataset)
+        path = ROOT+"data/data_process/{}/{}".format(dataset, dataset)
         func_map[dataset](path,feature_map[dataset],label_map[dataset])

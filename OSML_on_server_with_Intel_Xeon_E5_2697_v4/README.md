@@ -86,9 +86,9 @@ docker cp osml_dataset:/home/data .
 ```
 
 ## How to Collect Your Own Dataset
-1. Run `collect_single.py` (`collect_multiple.py`) in the `data/` directory to collect traces without (with) background applications.
+1. Run `collect_single.py` (`collect_multiple.py`) in the `data/scripts/` directory to collect traces without (with) background applications.
    
-2. Run `generate_dataset.sh` in the `data/` directory to label the raw data, and generated the dataset used for ML model training.
+2. Run `generate_dataset.sh` in the `data/scripts/` directory to label the raw data, and generated the dataset used for ML model training.
 
 Data in the `data_collection` directory are raw data. Data in the `data_process` directory are processed dataset used for model training. Run `python count_samples.py` to see how many samples are covered by the dataset.
 

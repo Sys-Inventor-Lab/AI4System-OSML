@@ -7,7 +7,7 @@
 #   - [Optional] Launch time (The unit is seconds, default as 0)
 #   - [Optional] End time (The unit is seconds, default as None)
 # Example:
-img-dnn PCT 100 36 0
+img-dnn PCT 60 36 0
 login PCT 60 36 0
 ads PCT 60 36 0
 specjbb PCT 30 36 0
@@ -21,5 +21,5 @@ xapian PCT 30 36 0
 #   - RPS value or percentage value
 #   - Time point when changing the RPS (The unit is seconds)
 # Example:
-CHANGE_RPS specjbb PCT 90 40
+CHANGE_RPS specjbb PCT 50 40
 

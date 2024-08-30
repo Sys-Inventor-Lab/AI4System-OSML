@@ -65,7 +65,7 @@ if __name__ == '__main__':
     else:
         datasets = ["Model_A","Model_A_shadow","Model_B","Model_B_shadow","Model_C"]
     for dataset in datasets:
-        path = "data_process/{}/{}".format(dataset, dataset)
+        path = ROOT+"data/data_process/{}/{}".format(dataset, dataset)
         clean_data_process(path)
         clean_data_collection(path)
     '''

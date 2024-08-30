@@ -6,14 +6,14 @@ from tqdm import tqdm
 from copy import deepcopy
 from annotation import annotation,get_labels
 
-sys.path.append("../")
+sys.path.append("../../")
 from utils import *
 from configs import *
 
 def merge_offline(dataset, data_source):
     all_lines=[]
-    data_root = "data_process/{}/tmp/{}/".format(dataset, data_source)
-    result_path = "data_process/{}/{}.csv".format(dataset,dataset)
+    data_root = ROOT+"data/data_process/{}/tmp/{}/".format(dataset, data_source)
+    result_path = ROOT+"data/data_process/{}/{}.csv".format(dataset,dataset)
     for path_name in tqdm(walk(data_root)):
         print(path_name)
         for path_thread in tqdm(walk(path_name)):
@@ -33,11 +33,11 @@ def merge_offline(dataset, data_source):
 
 def merge_online(dataset, data_source):
     for source in data_source:
-        data_root = "data_process/{}/tmp/{}/".format(dataset, source)
+        data_root = ROOT+"data/data_process/{}/tmp/{}/".format(dataset, source)
         for path_name in tqdm(walk(data_root)):
             all_lines=[]
             name=path_name.split("/")[-1]
-            result_path = "data_process/{}/{}_{}_{}.csv".format(dataset,dataset,source,name)
+            result_path = ROOT+"data/data_process/{}/{}_{}_{}.csv".format(dataset,dataset,source,name)
             for path_thread in tqdm(walk(path_name)):
                 for path_RPS in walk(path_thread):
                     if os.path.exists(path_RPS):

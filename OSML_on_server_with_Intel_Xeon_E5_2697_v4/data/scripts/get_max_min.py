@@ -1,5 +1,5 @@
 import sys
-sys.path.append("../")
+sys.path.append("../../")
 from utils import *
 from configs import *
 import pandas as pd

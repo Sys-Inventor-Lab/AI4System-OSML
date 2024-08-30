@@ -1,12 +1,12 @@
 import pandas as pd
 import sys
 import subprocess
-sys.path.append("../")
+sys.path.append("../../")
 from utils import *
 
 def count_samples_A():
     n_samples=0
-    tmp_root = "data_process/Model_A/tmp/single/"
+    tmp_root = ROOT+"data/data_process/Model_A/tmp/single/"
     for path_name in walk(tmp_root):
         for path_thread in walk(path_name):
             for path_RPS in walk(path_thread):
@@ -16,7 +16,7 @@ def count_samples_A():
 
 def count_samples_A_shadow():
     n_samples=0
-    tmp_root = "data_process/Model_A_shadow/tmp/multiple/"
+    tmp_root = ROOT+"data/data_process/Model_A_shadow/tmp/multiple/"
     for path_name in walk(tmp_root):
         for path_thread in walk(path_name):
             for path_RPS in walk(path_thread):
@@ -27,7 +27,7 @@ def count_samples_A_shadow():
 
 def count_samples_B():
     n_samples=0
-    tmp_root = "data_process/Model_B/tmp/multiple/"
+    tmp_root = ROOT+"data/data_process/Model_B/tmp/multiple/"
     for path_name in walk(tmp_root):
         for path_thread in walk(path_name):
             for path_RPS in walk(path_thread):
@@ -37,7 +37,7 @@ def count_samples_B():
 
 def count_samples_B_shadow():
     n_samples=0
-    tmp_root = "data_process/Model_B_shadow/tmp/multiple/"
+    tmp_root = ROOT+"data/data_process/Model_B_shadow/tmp/multiple/"
     for path_name in walk(tmp_root):
         for path_thread in walk(path_name):
             for path_RPS in walk(path_thread):
@@ -47,7 +47,7 @@ def count_samples_B_shadow():
 
 def count_samples_C():
     n_samples=0
-    root = "data_process/Model_C/"
+    root = ROOT+"data/data_process/Model_C/"
     for path_case in walk(root):
         n_samples += int(subprocess.check_output("wc -l {}".format(path_case), shell=True).decode().split()[0]) - 1 
 

@@ -4,12 +4,12 @@ import sys
 import os
 import time
 import subprocess
-sys.path.append("../")
+sys.path.append("../../")
 from program_mgr import program_mgr
 from configs import *
 from utils import *
 
-ROOT_DIR = "data_collection/single/"
+ROOT_DIR = ROOT+"data/data_collection/single/"
 NAMES = ["mongodb", "img-dnn", "xapian", "sphinx", "specjbb", "masstree", "login", "moses", "memcached"]
 MAX_THREADS = 36
 
