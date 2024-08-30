@@ -20,3 +20,4 @@
 */data/logs/
 */data/error_log.txt
 */models/legacy
+*/models/checkpoints/Model_C/DDPG.*
