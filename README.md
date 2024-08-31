@@ -55,7 +55,7 @@ OSML+ can generalize across platforms. We provide OSML+'s implementation, data s
 <br/>
 
 # [29/Jan/2024] OSML
-OSML is an ML-based scheduler that intelligently schedules multiple interactive resources to meet co-located services' QoS targets. OSML employs multiple ML models to work collaboratively to predict QoS variations, shepherd the scheduling, and recover from QoS violations in complicated co-location cases.
+OSML ([link of the paper](https://www.usenix.org/conference/fast23/presentation/liu)) is an ML-based scheduler that intelligently schedules multiple interactive resources to meet co-located services' QoS targets. OSML employs multiple ML models to work collaboratively to predict QoS variations, shepherd the scheduling, and recover from QoS violations in complicated co-location cases.
 
 OSML can generalize across platforms. We provide OSML's implementation, data set, and ML models on a server equipped with an Intel Xeon E5-2697 v4 CPU ([link](https://github.com/Sys-Inventor-Lab/AI4System-OSML/blob/master/OSML_on_server_with_Intel_Xeon_E5_2697_v4)). We will release OSML on other platforms in the near future.
 
