@@ -2,7 +2,7 @@ import pandas as pd
 import pickle
 import os
 import sys
-sys.path.append("..")
+sys.path.append("../../")
 from configs import *
 
 def convert_csv_2_pkl(path):

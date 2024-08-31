@@ -1,5 +1,5 @@
 # [29/Aug/2024] OSML+
-OSML+ is the extension of OSML. The additional features of OSML+ over OSML include: (1) OSML+ has new ML models with a shorter scheduling time interval, making OSML+ converge faster. (2) We use transfer learning technology to make OSML+ work well on new platforms. (3) We design a new central control framework in OSML+ that handles complicated co-location cases including LC and BE services. 
+OSML+ is the extension of OSML ([link of the paper](https://www.usenix.org/conference/fast23/presentation/liu)). The additional features of OSML+ over OSML include: (1) OSML+ has new ML models with a shorter scheduling time interval, making OSML+ converge faster. (2) We use transfer learning technology to make OSML+ work well on new platforms. (3) We design a new central control framework in OSML+ that handles complicated co-location cases including LC and BE services. 
 
 OSML+ can generalize across platforms. We provide OSML+'s implementation, data set, and ML models on the following platforms.
 
