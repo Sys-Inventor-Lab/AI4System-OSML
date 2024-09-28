@@ -77,8 +77,8 @@ CHANGE_RPS sphinx PCT 50 20
 
 During the scheduling process, the OSML scheduler records the response latency and resource allocation of each application, and finally outputs them to the `logs/` directory.
 
-## How to Obtain OSML Dataset
-We have collected extensive real traces for widely deployed LC services on a platform equipped with an Intel Xeon E5-2697 v4 @ 2.3GHz CPU and 256GB memory. The traces are in a docker image. You can obtain the dataset using the following instructions. 
+## How to Obtain OSML Training Dataset
+We have collected extensive real traces for widely deployed LC services on a platform equipped with an Intel Xeon E5-2697 v4 @ 2.3GHz CPU and 256GB memory. The traces are in a docker image. You can obtain the training dataset using the following instructions. 
 ```
 docker pull sysinventor/osml_dataset:v1.0
 docker run -idt --name osml_dataset sysinventor/osml_dataset:v1.0 /bin/bash

@@ -85,8 +85,8 @@ BE blackscholes
 
 During the scheduling process, the OSML+ scheduler records the response latency and resource allocation of each application, and finally outputs them to the `logs/` directory.
 
-## How to Obtain OSML+ Dataset
-We have collected traces for hours on a new platform equipped with an Intel Xeon Gold 5220R @ 2.2GHz CPU and 128 GB memory. The traces are in a docker image. You can obtain the dataset using the following instructions.
+## How to Obtain OSML+ Training Dataset
+We have collected traces for hours on a new platform equipped with an Intel Xeon Gold 5220R @ 2.2GHz CPU and 128 GB memory. The traces are in a docker image. You can obtain the training dataset using the following instructions.
 ```
 docker pull sysinventor/osml_plus_dataset_Gold_5220R:v1.0
 docker run -idt --name osml_plus_dataset_Gold_5220R sysinventor/osml_plus_dataset_Gold_5220R:v1.0 /bin/bash
