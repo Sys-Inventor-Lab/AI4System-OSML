@@ -1,2 +1,6 @@
 model_checkpoint_path: "/home/douxinglei/github/AI4System-OSML/OSML+_on_server_with_Intel_Xeon_Gold_5220R/models/checkpoints/Model_C/DDPG/DDPG"
+all_model_checkpoint_paths: "/home/douxinglei/github/AI4System-OSML/OSML+_on_server_with_Intel_Xeon_Gold_5220R/models/checkpoints/Model_C/DDPG.4000/DDPG"
+all_model_checkpoint_paths: "/home/douxinglei/github/AI4System-OSML/OSML+_on_server_with_Intel_Xeon_Gold_5220R/models/checkpoints/Model_C/DDPG.4001/DDPG"
+all_model_checkpoint_paths: "/home/douxinglei/github/AI4System-OSML/OSML+_on_server_with_Intel_Xeon_Gold_5220R/models/checkpoints/Model_C/DDPG.4203/DDPG"
+all_model_checkpoint_paths: "/home/douxinglei/github/AI4System-OSML/OSML+_on_server_with_Intel_Xeon_Gold_5220R/models/checkpoints/Model_C/DDPG.4400/DDPG"
 all_model_checkpoint_paths: "/home/douxinglei/github/AI4System-OSML/OSML+_on_server_with_Intel_Xeon_Gold_5220R/models/checkpoints/Model_C/DDPG/DDPG"

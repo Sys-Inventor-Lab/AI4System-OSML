@@ -111,17 +111,17 @@ def init():
                   }
 
     # Max load that can satisfy QoS target. Note that the max load may vary on different platforms.
-    MAX_LOAD = {"img-dnn": 3700,
-                "xapian": 2900,
+    MAX_LOAD = {"img-dnn": 1000,#3700,
+                "xapian": 1800,#2900,
                 "moses": 800,
                 "sphinx": 15,
-                "specjbb": 14000,
+                "specjbb": 6000,#14000,
                 "masstree": 1200,
                 "mongodb": 9000,
                 "memcached": 1280 * 1024,
-                "login": 1500,
+                "login": 800,#1500,
                 "nginx": 300 * 1024,
-                "ads": 500,
+                "ads": 300,#500,
                 "mysql": 190000,
                 "silo": 2400,
                 "redis": 66000,
@@ -300,10 +300,10 @@ def init_docker():
     BIND_PATH = None
     VOLUME_PATH = None
     # Start bechmark_container and get the volume path
-    outs, errs = shell_output("docker pull {}".format(DOCKER_IMAGE), wait=True, output=False)
-    logger.info((outs, errs))
-    outs, errs = shell_output("docker pull {}".format(PARSEC_IMAGE), wait=True, output=False)
-    logger.info((outs, errs))
+    #outs, errs = shell_output("docker pull {}".format(DOCKER_IMAGE), wait=True, output=False)
+    #logger.info((outs, errs))
+    #outs, errs = shell_output("docker pull {}".format(PARSEC_IMAGE), wait=True, output=False)
+    #logger.info((outs, errs))
     os.system("mkdir -p {}/volume".format(ROOT))
     os.system("mkdir -p {}/volume/mongodb".format(ROOT))
     outs, errs = shell_output("docker run -idt -v {}/volume:/home/OSML_Artifact/volume:rw -v /home/OSML_Artifact/apps --name {} {} /bin/bash".format(ROOT,DOCKER_CONTAINER, DOCKER_IMAGE), wait=True, output=False)
