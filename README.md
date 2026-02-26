@@ -1,4 +1,4 @@
-Link of OSML+ paper [Is Intelligence the Right Direction in New OS Scheduling for Multiple Resources in Cloud Environments?](https://dl.acm.org/doi/epdf/10.1145/3736584)
+Link of OSML+ paper: [Is Intelligence the Right Direction in New OS Scheduling for Multiple Resources in Cloud Environments?](https://dl.acm.org/doi/epdf/10.1145/3736584)
 
 Link of OSML paper: [Intelligent Resource Scheduling for Co-located Latency-critical Services: A Multi-Model Collaborative Learning Approach](https://www.usenix.org/system/files/fast23-liu.pdf)
 
