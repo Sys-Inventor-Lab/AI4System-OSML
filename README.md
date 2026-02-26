@@ -2,7 +2,7 @@ Link of OSML+ paper: [Is Intelligence the Right Direction in New OS Scheduling f
 
 Link of OSML paper: [Intelligent Resource Scheduling for Co-located Latency-critical Services: A Multi-Model Collaborative Learning Approach](https://www.usenix.org/system/files/fast23-liu.pdf)
 
-The OSML and OSML+ projects were primarily conducted by Lei Liu (PI) and Xinglei Dou.
+OSML and OSML+ projects are primarily conducted by Lei Liu (PI) and Xinglei Dou. The thanks also go to the previous students and researchers who have paid attention to OSML/OSML+.
 
 # [29/Aug/2024] OSML+
 OSML+ is the extension of OSML. The additional features of OSML+ over OSML include: (1) OSML+ has new ML models with a shorter scheduling time interval, making OSML+ converge faster. (2) We use transfer learning technology to make OSML+ work well on new platforms. (3) We design a new central control framework in OSML+ that handles complicated co-location cases including LC and BE services. 
